@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        h1 {
+            margin: 10px;
+        }
+
+        #input {
+            background-color: #eeafe9;
+            width: 300px;
+            height: 70px;
+            margin: 10px;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 30px;
+            border-radius: 15px;
+        }
+
+        button {
+            font-size: 50px;
+            background-color: rgb(144, 153, 240);
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            border-radius: 15px;
+        }
+
+        #output {
+            width: 330px;
+            height: 70px;
+            background-color: rgb(144, 240, 157);
+            padding: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 30px;
+            border-radius: 15px;
+        }
+
+        #error {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 30px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Jenny's calculator</h1>
+    <div>
+        <input type="number" id="input" />
+        <button id="clear">C</button>
+    </div>
+    <div>
+        <button id="plus">+</button>
+        <button id="minus">-</button>
+        <button id="multiply">×</button>
+        <button id="divide">÷</button>
+    </div>
+    <div>
+        <button id="calculate">=</button>
+        <input readonly type="text" id="output" />
+    </div>
+    <div id="error"></div>
+    <script src="index.js"></script>
+</body>
+
+</html>
