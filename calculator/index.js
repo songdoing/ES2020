@@ -113,7 +113,7 @@ calculateButton.addEventListener("click", () => {
         " ÷ " +
         input.value +
         " = " +
-        (firstNum * 1) / (input.value * 1);
+        ((firstNum * 1) / (input.value * 1)).toFixed(2);
       input.value = "";
       input.focus();
       error.textContent = "";
