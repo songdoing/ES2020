@@ -18,12 +18,11 @@ plusButton.addEventListener("click", () => {
     console.log(firstNum);
     input.value = "";
     output.value = firstNum + " +";
-    input.focus();
     error.textContent = "";
   } else {
     error.textContent = "You should input the number first.";
-    input.focus();
   }
+  input.focus();
 });
 minusButton.addEventListener("click", () => {
   if (input.value) {
@@ -31,12 +30,11 @@ minusButton.addEventListener("click", () => {
     firstNum = input.value;
     input.value = "";
     output.value = firstNum + " -";
-    input.focus();
     error.textContent = "";
   } else {
     error.textContent = "You should input the number first.";
-    input.focus();
   }
+  input.focus();
 });
 multiplyButton.addEventListener("click", () => {
   if (input.value) {
@@ -44,12 +42,11 @@ multiplyButton.addEventListener("click", () => {
     firstNum = input.value;
     input.value = "";
     output.value = firstNum + " ×";
-    input.focus();
     error.textContent = "";
   } else {
     error.textContent = "You should input the number first.";
-    input.focus();
   }
+  input.focus();
 });
 divideButton.addEventListener("click", () => {
   if (input.value) {
@@ -57,12 +54,11 @@ divideButton.addEventListener("click", () => {
     firstNum = input.value;
     input.value = "";
     output.value = firstNum + " ÷";
-    input.focus();
     error.textContent = "";
   } else {
     error.textContent = "You should input the number first.";
-    input.focus();
   }
+  input.focus();
 });
 
 clearButton.addEventListener("click", () => {
@@ -76,6 +72,7 @@ clearButton.addEventListener("click", () => {
 });
 
 calculateButton.addEventListener("click", () => {
+  console.log(operator);
   if (input.value) {
     if (operator === "+") {
       output.value =
@@ -84,9 +81,6 @@ calculateButton.addEventListener("click", () => {
         input.value +
         " = " +
         (firstNum * 1 + input.value * 1);
-      input.value = "";
-      input.focus();
-      error.textContent = "";
     } else if (operator === "-") {
       output.value =
         firstNum +
@@ -94,9 +88,6 @@ calculateButton.addEventListener("click", () => {
         input.value +
         " = " +
         (firstNum * 1 - input.value * 1);
-      input.value = "";
-      input.focus();
-      error.textContent = "";
     } else if (operator === "*") {
       output.value =
         firstNum +
@@ -104,9 +95,6 @@ calculateButton.addEventListener("click", () => {
         input.value +
         " = " +
         firstNum * 1 * (input.value * 1);
-      input.value = "";
-      input.focus();
-      error.textContent = "";
     } else if (operator === "/") {
       output.value =
         firstNum +
@@ -114,12 +102,13 @@ calculateButton.addEventListener("click", () => {
         input.value +
         " = " +
         ((firstNum * 1) / (input.value * 1)).toFixed(2);
-      input.value = "";
-      input.focus();
-      error.textContent = "";
+    } else if (operator === null) {
+      error.textContent = "You should input the operator";
     }
+    input.value = "";
+    error.textContent = "";
   } else {
-    error.textContent = "Try again. You should input the second number.";
-    input.focus();
+    error.textContent = "Try again. You should input the number.";
   }
+  input.focus();
 });
