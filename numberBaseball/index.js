@@ -4,21 +4,23 @@ const logs = document.querySelector("#logs");
 const error = document.querySelector("#error");
 let answer;
 let answerArr = [];
-
-for (let i = 0; i <= 3; i++) {
-  answerArr[i] = Math.floor(Math.random() * 10);
-}
-//from array to String
-answer = String(answerArr.join(""));
-console.log(answer);
-
+let numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 let count = 0;
 const randomAnswer = () => {
   //min(in) ~ max(in)
   //Math.floor(Math.random() * (max - min + 1)) + min;
   //answer = Math.floor(Math.random() * 9000) + 1000;
+
+  for (let i = 0; i <= 3; i++) {
+    let index = Math.floor(Math.random() * (10 - i)); //0~9 integer
+    answerArr.push(numbers[index]);
+    numbers.splice(index, 1);
+  }
+  //from array to String
+  answer = String(answerArr.join(""));
   console.log(answer);
 };
+
 check.addEventListener("click", () => {
   const tryAnswer = input.value;
   if (tryAnswer && tryAnswer.length === 4) {
@@ -36,4 +38,4 @@ check.addEventListener("click", () => {
   }
   count++;
 });
-//randomAnswer();
+randomAnswer();
