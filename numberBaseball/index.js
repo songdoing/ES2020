@@ -23,8 +23,11 @@ console.log(answer);
 check.addEventListener("click", () => {
   const tryAnswer = input.value;
   if (tryAnswer && tryAnswer.length === 4) {
-    if (count >= 10) {
-      error.textContent = `Sorry. You already tried 10 times. The answer is ${answer}. Try another one.`;
+    if (count > 10) {
+      error.textContent = `Game over! The answer was ${answer}. Try another one.`;
+      const btn = document.createElement("button");
+      btn.appendChild(document.createTextNode("Again"));
+      error.appendChild(btn);
     } else {
       //baseball logs
       if (tryAnswer === answer) {
@@ -44,11 +47,11 @@ check.addEventListener("click", () => {
             }
           }
         }
-        logs.appendChild(
-          document.createTextNode(
-            `${tryAnswer} : ${strike} strike ${ball} ball`
-          )
+        const message = document.createTextNode(
+          `${count + 1}. ${tryAnswer} : ${strike} strike, ${ball} ball`
         );
+        logs.appendChild(message);
+        logs.appendChild(document.createElement("br"));
       }
     }
   } else {
