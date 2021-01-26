@@ -4,15 +4,23 @@ const logs = document.querySelector("#logs");
 const error = document.querySelector("#error");
 let answer;
 let answerArr = [];
-let numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+//let numbers = [];
+// for (let n = 0; n <= 9; n++) {
+//   numbers.push(n);
+// }
+
 let count = 0;
+
+let numbers = Array(10)
+  .fill()
+  .map((v, i) => i);
 
 //min(in) ~ max(in)
 //Math.floor(Math.random() * (max - min + 1)) + min;
 //answer = Math.floor(Math.random() * 9000) + 1000;
 
 for (let i = 0; i <= 3; i++) {
-  let index = Math.floor(Math.random() * (10 - i)); //0~9 integer
+  let index = Math.floor(Math.random() * numbers.length); //0~9 integer
   answerArr.push(numbers[index]);
   numbers.splice(index, 1);
 }
