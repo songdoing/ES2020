@@ -5,12 +5,13 @@ const candidate = Array(45)
 const shuffle = [];
 while (candidate.length > 0) {
   const random = Math.floor(Math.random() * candidate.length);
-  const spliceArray = candidate.splice(random, 1);
-  const value = spliceArray[0];
+  const spliceArray = candidate.splice(random, 1); // 배열형태로 리턴
+  const value = spliceArray[0]; // 배열형태에서 숫자만 뽑기하려면
   shuffle.push(value);
 }
 console.log(shuffle);
 const winBalls = shuffle.slice(0, 6).sort((p, c) => p - c);
+//정렬, 두개씩 묶어서 빼기해서 음수면 그대로, 양수면 자리 바꾸기
 const bonus = shuffle[6];
 console.log(winBalls);
 console.log(bonus);
@@ -31,3 +32,19 @@ function colorize(number, tag) {
     tag.style.color = "white";
   }
 }
+
+const resultTag = document.querySelector("#result");
+for (let i = 0; i < 6; i++) {
+  const ball = document.createElement("div");
+  ball.className = "ball";
+  colorize(winBalls, ball);
+  ball.textContent = winBalls[i];
+  resultTag.appendChild(ball);
+}
+
+const bonusTag = document.querySelector("#bonus");
+const bonusBall = document.createElement("div");
+bonusBall.className = "ball";
+colorize(bonus, bonusBall);
+bonusBall.textContent = bonus;
+bonusTag.appendChild(bonusBall);
