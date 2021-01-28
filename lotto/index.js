@@ -34,15 +34,26 @@ function colorize(number, tag) {
 }
 
 const resultTag = document.querySelector("#result");
-for (let i = 0; i < 6; i++) {
+// for (let i = 0; i < 6; i++) {
+//   setTimeout(() => {
+//     const ball = document.createElement("div");
+//     ball.className = "ball";
+//     colorize(winBalls[i], ball);
+//     ball.textContent = winBalls[i];
+//     resultTag.appendChild(ball);
+//   }, 1000 * (i + 1));
+// }
+
+//배열에 관한 단순반복문, return이 없다(map도 먹히나, 1:1매핑에 초점, 끝에 return이 있을경우)
+winBalls.forEach((number, index) => {
   setTimeout(() => {
     const ball = document.createElement("div");
     ball.className = "ball";
-    colorize(winBalls[i], ball);
-    ball.textContent = winBalls[i];
+    colorize(number, ball);
+    ball.textContent = number;
     resultTag.appendChild(ball);
-  }, 1000 * (i + 1));
-}
+  }, 1000 * (index + 1));
+});
 
 const bonusTag = document.querySelector("#bonus");
 setTimeout(() => {
@@ -52,3 +63,12 @@ setTimeout(() => {
   bonusBall.textContent = bonus;
   bonusTag.appendChild(bonusBall);
 }, 7000);
+
+resetBtn = () => {
+  location.reload();
+};
+
+// const promises = [1, 2, 3].map((v) => {
+//   return Promise.resolve(v);
+// });
+// Promise.allSettled(promises);
