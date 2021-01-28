@@ -35,16 +35,20 @@ function colorize(number, tag) {
 
 const resultTag = document.querySelector("#result");
 for (let i = 0; i < 6; i++) {
-  const ball = document.createElement("div");
-  ball.className = "ball";
-  colorize(winBalls, ball);
-  ball.textContent = winBalls[i];
-  resultTag.appendChild(ball);
+  setTimeout(() => {
+    const ball = document.createElement("div");
+    ball.className = "ball";
+    colorize(winBalls[i], ball);
+    ball.textContent = winBalls[i];
+    resultTag.appendChild(ball);
+  }, 1000 * (i + 1));
 }
 
 const bonusTag = document.querySelector("#bonus");
-const bonusBall = document.createElement("div");
-bonusBall.className = "ball";
-colorize(bonus, bonusBall);
-bonusBall.textContent = bonus;
-bonusTag.appendChild(bonusBall);
+setTimeout(() => {
+  const bonusBall = document.createElement("div");
+  bonusBall.className = "ball";
+  colorize(bonus, bonusBall);
+  bonusBall.textContent = bonus;
+  bonusTag.appendChild(bonusBall);
+}, 7000);
