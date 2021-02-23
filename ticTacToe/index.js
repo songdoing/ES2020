@@ -3,7 +3,14 @@ let table = document.createElement("table");
 let rows = [];
 let columns = [];
 let columnCheck = (e) => {
-  console.log(e.target);
+  console.log(e.target); //클릭한 애(태그)
+  console.log(e.target.parentNode); //그 애 부모
+  //console.log(e.target.children); 그 애 자식
+
+  let whichRow = rows.indexOf(e.target.parentNode);
+
+  let whichColumn = columns[whichRow].indexOf(e.target);
+  console.log("whichiRow:", whichRow, "whichiColumn:", whichColumn);
 };
 
 for (let i = 1; i <= 3; i++) {
@@ -19,4 +26,4 @@ for (let i = 1; i <= 3; i++) {
   table.appendChild(row);
 }
 body.appendChild(table);
-console.log(rows, columns);
+console.log("rows:", rows, "columns:", columns);
