@@ -2,6 +2,8 @@ let body = document.body;
 let table = document.createElement("table");
 let rows = [];
 let columns = [];
+let turn = "X";
+
 let columnCheck = (e) => {
   console.log(e.target); //클릭한 애(태그)
   console.log(e.target.parentNode); //그 애 부모
@@ -11,6 +13,19 @@ let columnCheck = (e) => {
 
   let whichColumn = columns[whichRow].indexOf(e.target);
   console.log("whichiRow:", whichRow, "whichiColumn:", whichColumn);
+
+  //input값은 value, 태그 안 글자는 textContent
+  if (columns[whichRow][whichColumn].textContent !== undefined) {
+    //빈칸 아니다
+    columns[whichRow][whichColumn].textContent = turn;
+    if (turn === "X") {
+      turn = "O";
+    } else {
+      turn = "X";
+    }
+  } else {
+    //빈칸이다
+  }
 };
 
 for (let i = 1; i <= 3; i++) {
