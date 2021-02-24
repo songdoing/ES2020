@@ -3,6 +3,7 @@ let table = document.createElement("table");
 let rows = [];
 let columns = [];
 let turn = "X";
+let result = document.createElement("div");
 
 let columnCheck = (e) => {
   console.log(e.target); //클릭한 애(태그)
@@ -41,22 +42,31 @@ let columnCheck = (e) => {
     }
     //대각선
     if (
-      whichRow - whichColumn === 0 ||
-      Math.abs(whichRow - whichColumn) === 2
+      columns[0][0].textContent === turn &&
+      columns[1][1].textContent === turn &&
+      columns[2][2].textContent === turn
     ) {
-      //대각선 검사가 필요한 경우(0,0)(2,0)(1,1)(0,2)(2,2)
-      if (
-        columns[0][0].textContent === turn &&
-        columns[1][1].textContent === turn &&
-        columns[2][2].textContent === turn
-      ) {
-        win = true;
-      }
+      win = true;
+    }
+    if (
+      columns[0][2].textContent === turn &&
+      columns[1][1].textContent === turn &&
+      columns[2][0].textContent === turn
+    ) {
+      win = true;
     }
 
     //다 찼으면
     if (win) {
       //승리
+      result.textContent = turn + "'s WIN";
+      // 초기화
+      turn = "X";
+      columns.forEach(function (row) {
+        row.forEach(function (column) {
+          column.textContent = "";
+        });
+      });
     } else {
       // 다 안 찼으면  turn바꾸기
       if (turn === "X") {
@@ -81,4 +91,5 @@ for (let i = 1; i <= 3; i++) {
   table.appendChild(row);
 }
 body.appendChild(table);
+body.appendChild(result);
 console.log("rows:", rows, "columns:", columns);
