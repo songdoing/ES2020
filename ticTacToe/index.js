@@ -20,10 +20,50 @@ let columnCheck = (e) => {
   } else {
     //빈칸이다
     columns[whichRow][whichColumn].textContent = turn;
-    if (turn === "X") {
-      turn = "O";
+
+    //세 칸 찼는지 확인
+    let win = false;
+    //가로줄
+    if (
+      columns[whichRow][0].textContent === turn &&
+      columns[whichRow][1].textContent === turn &&
+      columns[whichRow][2].textContent === turn
+    ) {
+      win = true;
+    }
+    //세로줄
+    if (
+      columns[0][whichColumn].textContent === turn &&
+      columns[1][whichColumn].textContent === turn &&
+      columns[2][whichColumn].textContent === turn
+    ) {
+      win = true;
+    }
+    //대각선
+    if (
+      whichRow - whichColumn === 0 ||
+      Math.abs(whichRow - whichColumn) === 2
+    ) {
+      //대각선 검사가 필요한 경우(0,0)(2,0)(1,1)(0,2)(2,2)
+      if (
+        columns[0][0].textContent === turn &&
+        columns[1][1].textContent === turn &&
+        columns[2][2].textContent === turn
+      ) {
+        win = true;
+      }
+    }
+
+    //다 찼으면
+    if (win) {
+      //승리
     } else {
-      turn = "X";
+      // 다 안 찼으면  turn바꾸기
+      if (turn === "X") {
+        turn = "O";
+      } else {
+        turn = "X";
+      }
     }
   }
 };
