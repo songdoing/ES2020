@@ -12,19 +12,19 @@ let columnCheck = (e) => {
   let whichRow = rows.indexOf(e.target.parentNode);
 
   let whichColumn = columns[whichRow].indexOf(e.target);
-  console.log("whichiRow:", whichRow, "whichiColumn:", whichColumn);
+  console.log("whichRow:", whichRow, "whichColumn:", whichColumn);
 
   //input값은 value, 태그 안 글자는 textContent
-  if (columns[whichRow][whichColumn].textContent !== undefined) {
+  if (columns[whichRow][whichColumn].textContent !== "") {
     //빈칸 아니다
+  } else {
+    //빈칸이다
     columns[whichRow][whichColumn].textContent = turn;
     if (turn === "X") {
       turn = "O";
     } else {
       turn = "X";
     }
-  } else {
-    //빈칸이다
   }
 };
 
