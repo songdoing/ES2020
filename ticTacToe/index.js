@@ -11,7 +11,6 @@ let columnCheck = (e) => {
   //console.log(e.target.children); 그 애 자식
 
   let whichRow = rows.indexOf(e.target.parentNode);
-
   let whichColumn = columns[whichRow].indexOf(e.target);
   console.log("whichRow:", whichRow, "whichColumn:", whichColumn);
 
@@ -56,23 +55,58 @@ let columnCheck = (e) => {
       win = true;
     }
 
-    //다 찼으면
     if (win) {
       //승리
       result.textContent = turn + "'s WIN";
       // 초기화
-      turn = "X";
-      columns.forEach(function (row) {
-        row.forEach(function (column) {
-          column.textContent = "";
-        });
-      });
-    } else {
-      // 다 안 찼으면  turn바꾸기
-      if (turn === "X") {
-        turn = "O";
-      } else {
+      setTimeout(() => {
         turn = "X";
+        result.textContent = "";
+        columns.forEach(function (row) {
+          row.forEach(function (column) {
+            column.textContent = "";
+          });
+        });
+      }, 2000);
+    } else {
+      //승리 아님
+      let all = false;
+      //다찼는지 확인
+      if (
+        columns[0][0].textContent !== "" &&
+        columns[0][1].textContent !== "" &&
+        columns[0][2].textContent !== "" &&
+        columns[1][0].textContent !== "" &&
+        columns[1][1].textContent !== "" &&
+        columns[1][2].textContent !== "" &&
+        columns[2][0].textContent !== "" &&
+        columns[2][1].textContent !== "" &&
+        columns[2][2].textContent !== ""
+      ) {
+        all = true;
+      }
+      console.log(all);
+      if (all) {
+        //다 찼다면, 무승부, 초기화
+        //무승부
+        result.textContent = "DRAW!!";
+        //초기화
+        setTimeout(() => {
+          turn = "X";
+          result.textContent = "";
+          columns.forEach(function (row) {
+            row.forEach(function (column) {
+              column.textContent = "";
+            });
+          });
+        }, 2000);
+      } else {
+        //다 안 찼으면, turn 바꿔줌
+        if (turn === "X") {
+          turn = "O";
+        } else {
+          turn = "X";
+        }
       }
     }
   }
