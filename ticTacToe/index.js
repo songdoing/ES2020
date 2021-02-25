@@ -22,9 +22,21 @@ let columnCheck = (e) => {
       columns.forEach(function (row) {
         row.forEach(function (column) {
           column.textContent = "";
+          column.style.backgroundColor = "white";
         });
       });
     }, 2000);
+  };
+
+  let colorize = (turn) => {
+    console.log(turn);
+    if (turn === "X") {
+      console.log("red", columns[whichRow][whichColumn]);
+      columns[whichRow][whichColumn].style.backgroundColor = "red";
+    } else if (turn === "O") {
+      console.log("blue");
+      columns[whichRow][whichColumn].style.backgroundColor = "blue";
+    }
   };
 
   //input값은 value, 태그 안 글자는 textContent
@@ -33,6 +45,8 @@ let columnCheck = (e) => {
   } else {
     //빈칸이다
     columns[whichRow][whichColumn].textContent = turn;
+    console.log(turn);
+    colorize(turn);
 
     //세 칸 찼는지 확인
     let win = false;
