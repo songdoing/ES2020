@@ -14,6 +14,19 @@ let columnCheck = (e) => {
   let whichColumn = columns[whichRow].indexOf(e.target);
   console.log("whichRow:", whichRow, "whichColumn:", whichColumn);
 
+  let initialize = () => {
+    // 초기화
+    setTimeout(() => {
+      turn = "X";
+      result.textContent = "";
+      columns.forEach(function (row) {
+        row.forEach(function (column) {
+          column.textContent = "";
+        });
+      });
+    }, 2000);
+  };
+
   //input값은 value, 태그 안 글자는 textContent
   if (columns[whichRow][whichColumn].textContent !== "") {
     //빈칸 아니다
@@ -58,16 +71,7 @@ let columnCheck = (e) => {
     if (win) {
       //승리
       result.textContent = turn + "'s WIN";
-      // 초기화
-      setTimeout(() => {
-        turn = "X";
-        result.textContent = "";
-        columns.forEach(function (row) {
-          row.forEach(function (column) {
-            column.textContent = "";
-          });
-        });
-      }, 2000);
+      initialize();
     } else {
       //승리 아님
       let all = false;
@@ -90,16 +94,7 @@ let columnCheck = (e) => {
         //다 찼다면, 무승부, 초기화
         //무승부
         result.textContent = "DRAW!!";
-        //초기화
-        setTimeout(() => {
-          turn = "X";
-          result.textContent = "";
-          columns.forEach(function (row) {
-            row.forEach(function (column) {
-              column.textContent = "";
-            });
-          });
-        }, 2000);
+        initialize();
       } else {
         //다 안 찼으면, turn 바꿔줌
         if (turn === "X") {
