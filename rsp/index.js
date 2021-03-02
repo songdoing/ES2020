@@ -26,16 +26,20 @@ const rspCoord = {
   paper: "-288px",
 };
 
-setInterval(() => {
-  if (computerChoice === "rock") {
-    computerChoice = "scissors";
-  } else if (computerChoice === "scissors") {
-    computerChoice = "paper";
-  } else if (computerChoice === "paper") {
-    computerChoice = "rock";
-  }
-  computerTag.style.background = `url(https://en.pimg.jp/023/182/267/1/23182267.jpg) ${rspCoord[computerChoice]} 0`;
-}, 100);
+const intervalMaker = () => {
+  return setInterval(() => {
+    if (computerChoice === "rock") {
+      computerChoice = "scissors";
+    } else if (computerChoice === "scissors") {
+      computerChoice = "paper";
+    } else if (computerChoice === "paper") {
+      computerChoice = "rock";
+    }
+    computerTag.style.background = `url(https://en.pimg.jp/023/182/267/1/23182267.jpg) ${rspCoord[computerChoice]} 0`;
+  }, 100);
+};
+
+let intervalId = intervalMaker();
 
 const rockTag = document.querySelector("#rock");
 const scissorsTag = document.querySelector("#scissors");
@@ -57,26 +61,42 @@ const clickButton = (myChoice) => {
   //(myChoice) => () => {
 
   // }; return과 바깥{ }생략가능
-  //addEventListener에서 함수가 호출되었을때, return 값이 나온다
+  //addEventListener에서 함수가 호출되었을때, 그 함수의 return 값으로 대체된다
   //하지만 이 함수는 return = undefined(return값을 정하지 않으면 undefined)이므로
   //rockTag.addEventListener("click", undefined); 한 꼴(함수가 호출되어야 함)
   //그래서 return에 이 함수를 호출하도록..고차함수이용
   return () => {
+    clearInterval(intervalId);
     const myScore = score[myChoice];
     const computerScore = score[computerChoice];
     const diff = myScore - computerScore;
     const scoreTag = document.querySelector("#score");
-    let accScore = Number(scoreTag.textContent);
+    const resultTag = document.querySelector("#result");
+
+    let accScore = 0;
     if (diff === 0) {
       //무승부
+      resultTag.textContent =
+        "DRAW!! | " + myChoice + " VS " + computerChoice + " |";
     } else if (diff === 2 || diff === -1) {
       //이김
+      resultTag.textContent =
+        "WIN!! | " + myChoice + " VS " + computerChoice + " | 1 point added.";
       accScore += 1;
     } else if (diff === -2 || diff === 1) {
       // 짐
+      resultTag.textContent =
+        "LOSE!! | " +
+        myChoice +
+        " VS " +
+        computerChoice +
+        " | 1 point taken away.";
       accScore -= 1;
     }
-    scoreTag.textContent = accScore;
+    scoreTag.textContent = "Your Current Score : " + accScore;
+    setTimeout(() => {
+      intervalId = intervalMaker();
+    }, 1000);
   };
 };
 

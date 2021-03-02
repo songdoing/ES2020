@@ -7,21 +7,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Scissors Paper</title>
     <style>
+        body {
+            max-width: 500px;
+            margin: auto;
+            padding: 30px;
+            text-align: center;
+        }
+
         #computer {
             width: 142px;
             height: 200px;
+            margin: auto;
             background-position: 0 0;
+            border: 10px solid blueviolet;
+        }
+
+        .btn {
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        #result {
+            font-size: 20px;
+            color: red;
+            margin: 5px;
+        }
+
+        #score {
+            font-size: 25px;
+            color: palevioletred;
+            margin: 5px;
         }
     </style>
 </head>
 
 <body>
+    <h1>ROCK SCISSORS PAPER GAME</h1>
+    <h3>Click the button.</h3>
     <div id="computer"></div>
     <div>
         <button id="rock" class="btn">ROCK</button>
         <button id="scissors" class="btn">SCISSOR</button>
         <button id="paper" class="btn">PAPER</button>
     </div>
+    <div id="result"></div>
     <div id="score"></div>
     <script src="./index.js"></script>
 </body>
