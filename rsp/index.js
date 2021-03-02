@@ -61,8 +61,56 @@ rockTag.addEventListener("click", () => {
   // } else if (coord === rspCoord.paper) {
   //     score -= 1;
   // }
+  const myScore = score.rock;
+  const computerScore = score[computerChoice];
+  //score.rock혹은 score[rock]은 같은 값이나, []를 쓴경우는 변수를 넣을 수 있다
+  const diff = myScore - computerScore;
+  const scoreTag = document.querySelector("#score");
+  let accScore = Number(scoreTag.textContent);
+  if (diff === 0) {
+    //무승부
+  } else if (diff === 2 || diff === -1) {
+    //이김
+    accScore += 1;
+  } else if (diff === -2 || diff === 1) {
+    // 짐
+    accScore -= 1;
+  }
+  scoreTag.textContent = accScore;
 });
 
-scissorsTag.addEventListener("click", () => {});
+scissorsTag.addEventListener("click", () => {
+  const myScore = score.scissors;
+  const computerScore = score[computerChoice];
+  const diff = myScore - computerScore;
+  const scoreTag = document.querySelector("#score");
+  let accScore = Number(scoreTag.textContent);
+  if (diff === 0) {
+    //무승부
+  } else if (diff === 2 || diff === -1) {
+    //이김
+    accScore += 1;
+  } else if (diff === -2 || diff === 1) {
+    // 짐
+    accScore -= 1;
+  }
+  scoreTag.textContent = accScore;
+});
 
-paperTag.addEventListener("click", () => {});
+paperTag.addEventListener("click", () => {
+  const myScore = score.paper;
+  const computerScore = score[computerChoice];
+  const diff = myScore - computerScore;
+  const scoreTag = document.querySelector("#score");
+  let accScore = Number(scoreTag.textContent);
+  if (diff === 0) {
+    //무승부
+  } else if (diff === 2 || diff === -1) {
+    //이김
+    accScore += 1;
+  } else if (diff === -2 || diff === 1) {
+    // 짐
+    accScore -= 1;
+  }
+  scoreTag.textContent = accScore;
+});
