@@ -53,64 +53,44 @@ const score = {
   paper: -1,
 };
 
-rockTag.addEventListener("click", () => {
-  // let score = 0;
-  // if(coord === rspCoord.rock) {
-  // } else if (coord === rspCoord.scissors) {
-  //     score += 1;
-  // } else if (coord === rspCoord.paper) {
-  //     score -= 1;
-  // }
-  const myScore = score.rock;
-  const computerScore = score[computerChoice];
-  //score.rock혹은 score[rock]은 같은 값이나, []를 쓴경우는 변수를 넣을 수 있다
-  const diff = myScore - computerScore;
-  const scoreTag = document.querySelector("#score");
-  let accScore = Number(scoreTag.textContent);
-  if (diff === 0) {
-    //무승부
-  } else if (diff === 2 || diff === -1) {
-    //이김
-    accScore += 1;
-  } else if (diff === -2 || diff === 1) {
-    // 짐
-    accScore -= 1;
-  }
-  scoreTag.textContent = accScore;
-});
+const clickButton = (myChoice) => {
+  //(myChoice) => () => {
 
-scissorsTag.addEventListener("click", () => {
-  const myScore = score.scissors;
-  const computerScore = score[computerChoice];
-  const diff = myScore - computerScore;
-  const scoreTag = document.querySelector("#score");
-  let accScore = Number(scoreTag.textContent);
-  if (diff === 0) {
-    //무승부
-  } else if (diff === 2 || diff === -1) {
-    //이김
-    accScore += 1;
-  } else if (diff === -2 || diff === 1) {
-    // 짐
-    accScore -= 1;
-  }
-  scoreTag.textContent = accScore;
-});
+  // }; return과 바깥{ }생략가능
+  //addEventListener에서 함수가 호출되었을때, return 값이 나온다
+  //하지만 이 함수는 return = undefined(return값을 정하지 않으면 undefined)이므로
+  //rockTag.addEventListener("click", undefined); 한 꼴(함수가 호출되어야 함)
+  //그래서 return에 이 함수를 호출하도록..고차함수이용
+  return () => {
+    const myScore = score[myChoice];
+    const computerScore = score[computerChoice];
+    const diff = myScore - computerScore;
+    const scoreTag = document.querySelector("#score");
+    let accScore = Number(scoreTag.textContent);
+    if (diff === 0) {
+      //무승부
+    } else if (diff === 2 || diff === -1) {
+      //이김
+      accScore += 1;
+    } else if (diff === -2 || diff === 1) {
+      // 짐
+      accScore -= 1;
+    }
+    scoreTag.textContent = accScore;
+  };
+};
 
-paperTag.addEventListener("click", () => {
-  const myScore = score.paper;
-  const computerScore = score[computerChoice];
-  const diff = myScore - computerScore;
-  const scoreTag = document.querySelector("#score");
-  let accScore = Number(scoreTag.textContent);
-  if (diff === 0) {
-    //무승부
-  } else if (diff === 2 || diff === -1) {
-    //이김
-    accScore += 1;
-  } else if (diff === -2 || diff === 1) {
-    // 짐
-    accScore -= 1;
-  }
-  scoreTag.textContent = accScore;
-});
+rockTag.addEventListener("click", clickButton("rock"));
+// let score = 0;
+// if(coord === rspCoord.rock) {
+// } else if (coord === rspCoord.scissors) {
+//     score += 1;
+// } else if (coord === rspCoord.paper) {
+//     score -= 1;
+// }
+
+//score.rock혹은 score[rock]은 같은 값이나, []를 쓴경우는 변수를 넣을 수 있다
+
+scissorsTag.addEventListener("click", clickButton("scissors"));
+
+paperTag.addEventListener("click", clickButton("paper"));
