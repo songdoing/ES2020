@@ -1,3 +1,5 @@
+const tbody = document.querySelector("#table tbody"); //스코프
+let dataset = []; //스코프
 document.querySelector("#exec").addEventListener("click", () => {
   const hor = parseInt(document.querySelector("#hor").value);
   const ver = parseInt(document.querySelector("#ver").value);
@@ -23,8 +25,8 @@ document.querySelector("#exec").addEventListener("click", () => {
   console.log(shuffle);
 
   //테이블 만들기
-  let dataset = [];
-  const tbody = document.querySelector("#table tbody");
+
+  //const tbody = document.querySelector("#table tbody");
   for (let i = 0; i < ver; i += 1) {
     let arr = [];
     let tr = document.createElement("tr"); //세로를 먼저
@@ -32,6 +34,32 @@ document.querySelector("#exec").addEventListener("click", () => {
     for (let j = 0; j < hor; j += 1) {
       arr.push(1);
       let td = document.createElement("td");
+      //td 만들고 거기다 우클릭 이벤트 걸어주기
+      td.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        console.log("right click");
+        let parentTr = e.currentTarget.parentNode;
+        let parentTbody = e.currentTarget.parentNode.parentNode;
+        //indexOf는 배열에서만 사용할 수 있는데,
+        //배열이 아닌 곳에서 사용 할 수 있도록 꼼수
+        let rowFlag = Array.prototype.indexOf.call(
+          parentTr.children,
+          e.currentTarget
+        );
+        let columnFlag = Array.prototype.indexOf.call(
+          parentTbody.children,
+          parentTr
+        );
+        console.log(
+          parentTbody,
+          parentTr,
+          e.currentTarget,
+          rowFlag,
+          columnFlag
+        );
+        e.currentTarget.textContent = "🚩";
+        dataset[rowFlag][columnFlag] = "🚩";
+      });
       tr.appendChild(td);
     }
     tbody.appendChild(tr);
@@ -40,10 +68,23 @@ document.querySelector("#exec").addEventListener("click", () => {
   //mine 심기
   for (let k = 0; k < shuffle.length; k++) {
     //ex. 60 (7번째 줄, 0번째 칸)
-    let row = Math.floor(shuffle[k] / 10); //60나누기 10하고 내림 = 6(인덱스)
-    let column = shuffle[k] % 10; //60 나누기 10의 나머지 = 0
-    console.log(row, column);
-    tbody.children[row].children[column].textContent = "💣";
-    dataset[row][column] = "💣";
+    let rowMine = Math.floor(shuffle[k] / 10); //60나누기 10하고 내림 = 6(인덱스)
+    let columnMine = shuffle[k] % 10; //60 나누기 10의 나머지 = 0
+    console.log(rowMine, columnMine);
+    tbody.children[rowMine].children[columnMine].textContent = "💣";
+    dataset[rowMine][columnMine] = "💣";
   }
 });
+
+//위의 exec addEventListener안에 있는 tbody와는 다르다(스코프)
+//그래서 바깥(맨위)으로 꺼냄
+
+//우클릭으로 깃발 꽂기
+// tbody.querySelectorAll("td").forEach((td) => {
+//   td.addEventListener("contextmenu", (e) => {
+//     e.preventDefault();
+//     console.log("right click");
+//   });
+// });
+//했는데, td를 exec addEventListener안에서 만들었기(비동기)에 모름.
+//비동기는 동기보다 뒤에 올수 있음. 그래서 td생성뒤 바로 이벤트 걸어
