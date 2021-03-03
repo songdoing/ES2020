@@ -32,4 +32,9 @@ document.querySelector("#exec").addEventListener("click", () => {
     }
     tbody.appendChild(tr);
   }
+  //mine 심기
+  for (let k = 0; k < shuffle.length; k++) {
+    //ex. 59 (6번째줄, 9번째칸)
+    let;
+  }
 });
