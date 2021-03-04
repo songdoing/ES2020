@@ -40,6 +40,8 @@ document.querySelector("#exec").addEventListener("click", () => {
         console.log("right click");
         let parentTr = e.currentTarget.parentNode;
         let parentTbody = e.currentTarget.parentNode.parentNode;
+        //e.currentTarget: 이벤트 달린애 e.target : 이벤트가 실제로 일어난 애
+
         //indexOf는 배열에서만 사용할 수 있는데,
         //배열이 아닌 곳에서 사용 할 수 있도록 꼼수
         let rowFlag = Array.prototype.indexOf.call(
@@ -54,11 +56,24 @@ document.querySelector("#exec").addEventListener("click", () => {
           parentTbody,
           parentTr,
           e.currentTarget,
-          rowFlag,
-          columnFlag
+          columnFlag,
+          rowFlag
         );
-        e.currentTarget.textContent = "🚩";
-        dataset[rowFlag][columnFlag] = "🚩";
+
+        if (
+          e.currentTarget.textContent === "" ||
+          e.currentTarget.textContent === "💣"
+        ) {
+          e.currentTarget.textContent = "🚩";
+        } else if (e.currentTarget.textContent === "🚩") {
+          e.currentTarget.textContent = "❓";
+        } else if (e.currentTarget.textContent === "❓") {
+          if (dataset[columnFlag][rowFlag] === 1) {
+            e.currentTarget.textContent = "";
+          } else if (dataset[columnFlag][rowFlag] === "💣") {
+            e.currentTarget.textContent = "💣";
+          }
+        }
       });
       tr.appendChild(td);
     }
