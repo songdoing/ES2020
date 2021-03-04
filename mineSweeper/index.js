@@ -1,6 +1,8 @@
 const tbody = document.querySelector("#table tbody"); //스코프
 let dataset = []; //스코프
 document.querySelector("#exec").addEventListener("click", () => {
+  //실행버튼 눌렀을때, 기존 테이블 다 지워버리기(초기화)
+  tbody.innerHTML = "";
   const hor = parseInt(document.querySelector("#hor").value);
   const ver = parseInt(document.querySelector("#ver").value);
   const mine = parseInt(document.querySelector("#mine").value);
