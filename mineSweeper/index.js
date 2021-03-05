@@ -36,7 +36,7 @@ document.querySelector("#exec").addEventListener("click", () => {
     for (let j = 0; j < hor; j += 1) {
       arr.push(1);
       let td = document.createElement("td");
-      //td 만들고 거기다 우클릭 이벤트 걸어주기
+      //td 우클릭 이벤트 걸어주기
       td.addEventListener("contextmenu", (e) => {
         e.preventDefault();
         console.log("right click");
@@ -46,11 +46,11 @@ document.querySelector("#exec").addEventListener("click", () => {
 
         //indexOf는 배열에서만 사용할 수 있는데,
         //배열이 아닌 곳에서 사용 할 수 있도록 꼼수
-        let rowFlag = Array.prototype.indexOf.call(
+        let columnFlag = Array.prototype.indexOf.call(
           parentTr.children,
           e.currentTarget
         );
-        let columnFlag = Array.prototype.indexOf.call(
+        let rowFlag = Array.prototype.indexOf.call(
           parentTbody.children,
           parentTr
         );
@@ -58,8 +58,8 @@ document.querySelector("#exec").addEventListener("click", () => {
           parentTbody,
           parentTr,
           e.currentTarget,
-          columnFlag,
-          rowFlag
+          rowFlag,
+          columnFlag
         );
 
         if (
@@ -70,13 +70,55 @@ document.querySelector("#exec").addEventListener("click", () => {
         } else if (e.currentTarget.textContent === "🚩") {
           e.currentTarget.textContent = "❓";
         } else if (e.currentTarget.textContent === "❓") {
-          if (dataset[columnFlag][rowFlag] === 1) {
+          if (dataset[rowFlag][columnFlag] === 1) {
             e.currentTarget.textContent = "";
-          } else if (dataset[columnFlag][rowFlag] === "💣") {
+          } else if (dataset[rowFlag][columnFlag] === "💣") {
             e.currentTarget.textContent = "💣";
           }
         }
       });
+      //왼쪽 클릭 이벤트 걸어주기
+      td.addEventListener("click", (e) => {
+        //클릭했을때 주변 지뢰 개수
+        let parentTr = e.currentTarget.parentNode;
+        let parentTbody = e.currentTarget.parentNode.parentNode;
+        let columnFlag = Array.prototype.indexOf.call(
+          parentTr.children,
+          e.currentTarget
+        );
+        let rowFlag = Array.prototype.indexOf.call(
+          parentTbody.children,
+          parentTr
+        );
+
+        if (dataset[rowFlag][columnFlag] === "💣") {
+          e.currentTarget.textContent = "💥";
+        } else {
+          //주변 8칸의 폭탄 갯수 확인하여 숫자로 표시하기, 음수 되지 않도록 if문
+          let round = [
+            dataset[rowFlag][columnFlag - 1],
+            dataset[rowFlag][columnFlag + 1],
+          ];
+          //이전 줄이 없는 경우
+          if (dataset[rowFlag - 1]) {
+            round = round.concat([
+              dataset[rowFlag - 1][columnFlag - 1],
+              dataset[rowFlag - 1][columnFlag],
+              dataset[rowFlag - 1][columnFlag + 1],
+            ]);
+          }
+          //이후 줄이 없는 경우
+          if (dataset[rowFlag + 1]) {
+            round = round.concat([
+              dataset[rowFlag + 1][columnFlag - 1],
+              dataset[rowFlag + 1][columnFlag],
+              dataset[rowFlag + 1][columnFlag + 1],
+            ]);
+          }
+          e.currentTarget.textContent = round.filter((v) => v === "💣").length;
+        }
+      });
+
       tr.appendChild(td);
     }
     tbody.appendChild(tr);
