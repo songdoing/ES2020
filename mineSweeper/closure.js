@@ -39,7 +39,7 @@ for (var i = 0; i < 100; i++) {
   closure(i);
 }
 
-//즉시실행 함수를 쓰면
+//즉시실행 함수: 소괄호로 함수를 감싸고, 바로 호출
 for (var i = 0; i < 100; i++) {
   (closure = (j) => {
     setTimeout(() => {

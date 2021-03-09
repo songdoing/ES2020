@@ -1,8 +1,10 @@
 const tbody = document.querySelector("#table tbody"); //스코프
 let dataset = []; //스코프
 document.querySelector("#exec").addEventListener("click", () => {
-  //실행버튼 눌렀을때, 기존 테이블 다 지워버리기(초기화)
+  //실행버튼 눌렀을때, 기존 테이블 다 지워버리기(초기화), 데이터도
   tbody.innerHTML = "";
+  dataset = [];
+
   const hor = parseInt(document.querySelector("#hor").value);
   const ver = parseInt(document.querySelector("#ver").value);
   const mine = parseInt(document.querySelector("#mine").value);
@@ -90,6 +92,7 @@ document.querySelector("#exec").addEventListener("click", () => {
           parentTbody.children,
           parentTr
         );
+        e.currentTarget.classList.add("opened");
 
         if (dataset[rowFlag][columnFlag] === "💣") {
           e.currentTarget.textContent = "💥";
@@ -115,7 +118,36 @@ document.querySelector("#exec").addEventListener("click", () => {
               dataset[rowFlag + 1][columnFlag + 1],
             ]);
           }
-          e.currentTarget.textContent = round.filter((v) => v === "💣").length;
+          let roundNumber = round.filter((v) => v === "💣").length;
+          e.currentTarget.textContent = roundNumber;
+
+          //클릭했을때 roundNumber가 0이면 그 주변 다 공개되어야
+          if (roundNumber === 0) {
+            //8칸 오픈(재귀함수): 반복문을 함수로 표현시키는
+            let roundEight = [];
+            if (tbody.children[rowFlag - 1]) {
+              roundEight = roundEight.concat([
+                tbody.children[rowFlag - 1].children[columnFlag - 1],
+                tbody.children[rowFlag - 1].children[columnFlag],
+                tbody.children[rowFlag - 1].children[columnFlag + 1],
+              ]);
+            }
+            roundEight = roundEight.concat([
+              tbody.children[rowFlag].children[columnFlag - 1],
+              tbody.children[rowFlag].children[columnFlag + 1],
+            ]);
+            if (tbody.children[rowFlag + 1]) {
+              roundEight = roundEight.concat([
+                tbody.children[rowFlag + 1].children[columnFlag - 1],
+                tbody.children[rowFlag + 1].children[columnFlag],
+                tbody.children[rowFlag + 1].children[columnFlag + 1],
+              ]);
+            }
+            //배열에서 undefined 를 제거하는 filter함수
+            roundEight
+              .filter((v) => !!v)
+              .forEach((openRound) => openRound.click());
+          }
         }
       });
 
