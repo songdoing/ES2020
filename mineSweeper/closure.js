@@ -36,8 +36,18 @@ for (var i = 0; i < 100; i++) {
       console.log(j);
     }, j * 1000);
   };
-  closure(j);
+  closure(i);
 }
+
+//즉시실행 함수를 쓰면
+for (var i = 0; i < 100; i++) {
+  (closure = (j) => {
+    setTimeout(() => {
+      console.log(j);
+    }, j * 1000);
+  })(i);
+}
+
 // 풀어서 쓰면..
 closure = (j) => {
   //j = 0
