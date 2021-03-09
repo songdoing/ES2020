@@ -135,7 +135,7 @@ document.querySelector("#exec").addEventListener("click", () => {
   }
 });
 
-//위의 exec addEventListener안에 있는 tbody와는 다르다(스코프)
+//함수 스코프 문제로 exec 이벤트 함수 밖에서는 tbody와 dataset에 접근 못하게 된다
 //그래서 바깥(맨위)으로 꺼냄
 
 //우클릭으로 깃발 꽂기
