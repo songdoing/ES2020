@@ -36,7 +36,7 @@ document.querySelector("#exec").addEventListener("click", () => {
     let tr = document.createElement("tr"); //세로를 먼저
     dataset.push(arr);
     for (let j = 0; j < hor; j += 1) {
-      arr.push(1);
+      arr.push(0);
       let td = document.createElement("td");
       //td 우클릭 이벤트 걸어주기
       td.addEventListener("contextmenu", (e) => {
@@ -94,6 +94,8 @@ document.querySelector("#exec").addEventListener("click", () => {
         );
         e.currentTarget.classList.add("opened");
 
+        dataset[rowFlag][columnFlag] = 1; //기본 0이고 열렸을때 1로 바꾸기
+
         if (dataset[rowFlag][columnFlag] === "💣") {
           e.currentTarget.textContent = "💥";
         } else {
@@ -124,7 +126,7 @@ document.querySelector("#exec").addEventListener("click", () => {
           //클릭했을때 roundNumber가 0이면 그 주변 다 공개되어야
           if (roundNumber === 0) {
             //8칸 오픈(재귀함수): 반복문을 함수로 표현시키는
-            let roundEight = [];
+            let roundEight = []; //0인 애들만 열기
             if (tbody.children[rowFlag - 1]) {
               roundEight = roundEight.concat([
                 tbody.children[rowFlag - 1].children[columnFlag - 1],
@@ -146,7 +148,21 @@ document.querySelector("#exec").addEventListener("click", () => {
             //배열에서 undefined 를 제거하는 filter함수
             roundEight
               .filter((v) => !!v)
-              .forEach((openRound) => openRound.click());
+              .forEach((openRound) => {
+                let parentTr = openRound.parentNode;
+                let parentTbody = openRound.parentNode.parentNode;
+                let openRoundColumn = Array.prototype.indexOf.call(
+                  parentTr.children,
+                  openRound
+                );
+                let openRoundRow = Array.prototype.indexOf.call(
+                  parentTbody.children,
+                  parentTr
+                );
+                if (dataset[openRoundRow][openRoundColumn] !== 1) {
+                  openRound.click(); //click이벤트를 또 호출
+                }
+              });
           }
         }
       });
