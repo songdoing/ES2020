@@ -1,6 +1,7 @@
 const tbody = document.querySelector("#table tbody"); //스코프
 let dataset = []; //스코프
 let stopFlag = false;
+let openedNum = 0;
 
 document.querySelector("#exec").addEventListener("click", () => {
   //실행버튼 눌렀을때, 기존 테이블 다 지워버리기(초기화), 데이터도
@@ -8,6 +9,7 @@ document.querySelector("#exec").addEventListener("click", () => {
   dataset = [];
   document.querySelector("#result").textContent = "";
   stopFlag = false;
+  openedNum = 0;
 
   const hor = parseInt(document.querySelector("#hor").value);
   const ver = parseInt(document.querySelector("#ver").value);
@@ -104,7 +106,12 @@ document.querySelector("#exec").addEventListener("click", () => {
           parentTbody.children,
           parentTr
         );
+        if (dataset[rowFlag][columnFlag] === 1) {
+          return; //이미 열림으로 표신된거는 더이상..
+        }
+        //클릭했을때
         e.currentTarget.classList.add("opened");
+        openedNum += 1; //칸을 열때마다 1 추가
 
         if (dataset[rowFlag][columnFlag] === "💣") {
           e.currentTarget.textContent = "💥";
@@ -137,7 +144,7 @@ document.querySelector("#exec").addEventListener("click", () => {
           e.currentTarget.textContent = roundNumber || "";
           //앞의 값이 거짓값이면, 뒤의 값을 사용해라
           //거짓인 값 : false, '', 0, null, undefined, NaN
-
+          dataset[rowFlag][columnFlag] = 1; //열린칸이 0이 아니더라도, 데이터는 열림으로 표시
           //클릭했을때 roundNumber가 0이면 그 주변 다 공개되어야
           if (roundNumber === 0) {
             //8칸 오픈(재귀함수): 반복문을 함수로 표현시키는
@@ -160,6 +167,7 @@ document.querySelector("#exec").addEventListener("click", () => {
                 tbody.children[rowFlag + 1].children[columnFlag + 1],
               ]);
             }
+            dataset[rowFlag][columnFlag] = 1; // 열린칸이 0일때도..데이터에 열림 표시 1
             //배열에서 undefined 를 제거하는 filter함수
             roundEight
               .filter((v) => !!v)
@@ -180,8 +188,11 @@ document.querySelector("#exec").addEventListener("click", () => {
               });
           }
         }
+        if (openedNum === hor * ver - mine) {
+          stopFlag = true;
+          document.querySelector("#result").textContent = "You win!!";
+        }
       });
-
       tr.appendChild(td);
     }
     tbody.appendChild(tr);
