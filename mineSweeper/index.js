@@ -4,6 +4,7 @@ document.querySelector("#exec").addEventListener("click", () => {
   //실행버튼 눌렀을때, 기존 테이블 다 지워버리기(초기화), 데이터도
   tbody.innerHTML = "";
   dataset = [];
+  document.querySelector("#result").textContent = "";
 
   const hor = parseInt(document.querySelector("#hor").value);
   const ver = parseInt(document.querySelector("#ver").value);
@@ -94,11 +95,11 @@ document.querySelector("#exec").addEventListener("click", () => {
         );
         e.currentTarget.classList.add("opened");
 
-        dataset[rowFlag][columnFlag] = 1; //기본 0이고 열렸을때 1로 바꾸기
-
         if (dataset[rowFlag][columnFlag] === "💣") {
           e.currentTarget.textContent = "💥";
+          document.querySelector("#result").textContent = "Fail";
         } else {
+          dataset[rowFlag][columnFlag] = 1; //기본 0이고 열렸을때 1로 바꾸기
           //주변 8칸의 폭탄 갯수 확인하여 숫자로 표시하기, 음수 되지 않도록 if문
           let round = [
             dataset[rowFlag][columnFlag - 1],
@@ -121,7 +122,9 @@ document.querySelector("#exec").addEventListener("click", () => {
             ]);
           }
           let roundNumber = round.filter((v) => v === "💣").length;
-          e.currentTarget.textContent = roundNumber;
+          e.currentTarget.textContent = roundNumber || "";
+          //앞의 값이 거짓값이면, 뒤의 값을 사용해라
+          //거짓인 값 : false, '', 0, null, undefined, NaN
 
           //클릭했을때 roundNumber가 0이면 그 주변 다 공개되어야
           if (roundNumber === 0) {
