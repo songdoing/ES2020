@@ -1,10 +1,13 @@
 const tbody = document.querySelector("#table tbody"); //스코프
 let dataset = []; //스코프
+let stopFlag = false;
+
 document.querySelector("#exec").addEventListener("click", () => {
   //실행버튼 눌렀을때, 기존 테이블 다 지워버리기(초기화), 데이터도
   tbody.innerHTML = "";
   dataset = [];
   document.querySelector("#result").textContent = "";
+  stopFlag = false;
 
   const hor = parseInt(document.querySelector("#hor").value);
   const ver = parseInt(document.querySelector("#ver").value);
@@ -42,6 +45,10 @@ document.querySelector("#exec").addEventListener("click", () => {
       //td 우클릭 이벤트 걸어주기
       td.addEventListener("contextmenu", (e) => {
         e.preventDefault();
+        if (stopFlag) {
+          return; //함수실행을 중간에 끊는다
+        }
+
         console.log("right click");
         let parentTr = e.currentTarget.parentNode;
         let parentTbody = e.currentTarget.parentNode.parentNode;
@@ -82,6 +89,10 @@ document.querySelector("#exec").addEventListener("click", () => {
       });
       //왼쪽 클릭 이벤트 걸어주기
       td.addEventListener("click", (e) => {
+        if (stopFlag) {
+          return; //함수실행을 중간에 끊는다
+        }
+
         //클릭했을때 주변 지뢰 개수
         let parentTr = e.currentTarget.parentNode;
         let parentTbody = e.currentTarget.parentNode.parentNode;
@@ -97,7 +108,8 @@ document.querySelector("#exec").addEventListener("click", () => {
 
         if (dataset[rowFlag][columnFlag] === "💣") {
           e.currentTarget.textContent = "💥";
-          document.querySelector("#result").textContent = "Fail";
+          document.querySelector("#result").textContent = "You failed.";
+          stopFlag = true; //게임종료, 더이상 클릭 안됨
         } else {
           dataset[rowFlag][columnFlag] = 1; //기본 0이고 열렸을때 1로 바꾸기
           //주변 8칸의 폭탄 갯수 확인하여 숫자로 표시하기, 음수 되지 않도록 if문
