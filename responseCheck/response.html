@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Response Check</title>
+</head>
+<style>
+    body {
+        max-width: 500px;
+        margin: auto;
+        padding: 30px;
+        text-align: center;
+    }
+
+    #screen {
+        width: 500px;
+        height: 300px;
+
+    }
+
+    #screen.waiting {
+        background-color: yellowgreen;
+        color: navy;
+    }
+
+    #screen.ready {
+        background-color: red;
+        color: white;
+    }
+
+    #screen.now {
+        background-color: green;
+        color: white;
+    }
+</style>
+
+<body>
+    <h1>Response Check</h1>
+    <div id="screen" class="waiting">Click to start.</div>
+    <script src="./response.js"></script>
+</body>
+
+</html>
