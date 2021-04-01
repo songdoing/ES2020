@@ -1,4 +1,5 @@
 let screen = document.querySelector("#screen");
+let result = document.querySelector("#result");
 let startTime;
 let endTime;
 let timeOut;
@@ -23,10 +24,11 @@ screen.addEventListener("click", () => {
       screen.classList.remove("ready");
       screen.classList.add("waiting");
       screen.textContent = "Too hurry. Try again.";
+    } else {
+      screen.classList.remove("ready");
+      screen.classList.add("now");
+      screen.textContent = "Click Now!";
     }
-    screen.classList.remove("ready");
-    screen.classList.add("now");
-    screen.textContent = "Click Now!";
   } else if (screen.classList.contains("now")) {
     endTime = new Date();
     console.log("response speed ", endTime - startTime, " ms");
@@ -36,10 +38,7 @@ screen.addEventListener("click", () => {
     screen.classList.remove("now");
     screen.classList.add("waiting");
     screen.textContent = "Click to start.";
+    result.textContent = `Your average of response time :
+     ${parseInt(record.reduce((a, c) => a + c) / record.length)} ms`;
   }
 });
-
-// for(i=0; i < record.length; i++) {
-//   sum += Number(record[i]);
-// }
-// return sum;
