@@ -39,6 +39,8 @@ screen.addEventListener("click", () => {
     screen.classList.add("waiting");
     screen.textContent = "Click to start.";
     let averageTime = parseInt(record.reduce((a, c) => a + c) / record.length);
+
+    console.log("record", record);
     result.textContent = `Your average of response time :
      ${record.length === 0 ? null : averageTime} ms`;
     if (record.length === 1) {
@@ -46,6 +48,16 @@ screen.addEventListener("click", () => {
       let btnText = document.createTextNode("RESET");
       btn.appendChild(btnText);
       document.body.appendChild(btn);
+      btn.setAttribute("id", "resetBtn");
+
+      let resetBtn = document.querySelector("#resetBtn");
+      resetBtn.addEventListener("click", () => {
+        averageTime = null;
+        record = [];
+        result.textContent = "";
+        document.body.removeChild(btn);
+        console.log("record", record);
+      });
     }
   }
 });
