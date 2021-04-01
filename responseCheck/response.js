@@ -41,5 +41,11 @@ screen.addEventListener("click", () => {
     let averageTime = parseInt(record.reduce((a, c) => a + c) / record.length);
     result.textContent = `Your average of response time :
      ${record.length === 0 ? null : averageTime} ms`;
+    if (record.length === 1) {
+      let btn = document.createElement("button");
+      let btnText = document.createTextNode("RESET");
+      btn.appendChild(btnText);
+      document.body.appendChild(btn);
+    }
   }
 });
