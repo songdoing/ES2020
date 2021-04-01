@@ -38,7 +38,8 @@ screen.addEventListener("click", () => {
     screen.classList.remove("now");
     screen.classList.add("waiting");
     screen.textContent = "Click to start.";
+    let averageTime = parseInt(record.reduce((a, c) => a + c) / record.length);
     result.textContent = `Your average of response time :
-     ${parseInt(record.reduce((a, c) => a + c) / record.length)} ms`;
+     ${record.length === 0 ? null : averageTime} ms`;
   }
 });
