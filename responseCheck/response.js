@@ -1,27 +1,45 @@
 let screen = document.querySelector("#screen");
-let state = {};
+let startTime;
+let endTime;
+let timeOut;
+//click콜백함수에서 변수 선언하면 호출스택(call stack)
+//때문에 변수 다 날아가기 때문에, 전역변수로 선언
+//비동기함수는 밖에다가 변수 선언할것
+let record = [];
 
 screen.addEventListener("click", () => {
-  let startTime;
-  let endTime;
-
   if (screen.classList.contains("waiting")) {
     screen.classList.remove("waiting");
     screen.classList.add("ready");
     screen.textContent = "Click when it changes green.";
-    setTimeout(() => {
+    timeOut = setTimeout(() => {
       startTime = new Date();
       screen.click();
     }, Math.floor(Math.random() * 1000) + 2000); //2000~3000 랜덤수
   } else if (screen.classList.contains("ready")) {
+    //부정클릭했을때
+    if (!startTime) {
+      clearTimeout(timeOut);
+      screen.classList.remove("ready");
+      screen.classList.add("waiting");
+      screen.textContent = "Too hurry. Try again.";
+    }
     screen.classList.remove("ready");
     screen.classList.add("now");
     screen.textContent = "Click Now!";
   } else if (screen.classList.contains("now")) {
     endTime = new Date();
     console.log("response speed ", endTime - startTime, " ms");
+    record.push(endTime - startTime);
+    startTime = null;
+    endTime = null;
     screen.classList.remove("now");
     screen.classList.add("waiting");
     screen.textContent = "Click to start.";
   }
 });
+
+// for(i=0; i < record.length; i++) {
+//   sum += Number(record[i]);
+// }
+// return sum;
