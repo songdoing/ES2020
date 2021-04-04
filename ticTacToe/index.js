@@ -113,9 +113,15 @@ let columnCheck = (e) => {
         //다 안 찼으면, turn 바꿔줌
         if (turn === "X") {
           turn = "O";
-        } else {
-          turn = "X";
         }
+
+        setTimeout(() => {
+          console.log("computer turn");
+          //빈칸중 하나를 고른다
+
+          //나에게 턴을 넘긴다
+          turn = "x";
+        }, 1000);
       }
     }
   }
