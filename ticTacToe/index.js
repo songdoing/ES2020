@@ -44,7 +44,12 @@ let resultCheck = (whichRow, whichColumn) => {
   //resultCheck함수에 return을 해주면, 전역변수처럼 가져다 쓸수.
 };
 
-let initialize = () => {
+let initialize = (draw) => {
+  if (draw) {
+    result.textContent = "DRAW!!";
+  } else {
+    result.textContent = turn + "'s WIN";
+  }
   // 초기화
   setTimeout(() => {
     turn = "X";
@@ -55,6 +60,7 @@ let initialize = () => {
         column.style.backgroundColor = "white";
       });
     });
+    turn = "X";
   }, 2000);
 };
 
@@ -62,6 +68,9 @@ let columnCheck = (e) => {
   console.log(e.target); //클릭한 애(태그)
   console.log(e.target.parentNode); //그 애 부모
   //console.log(e.target.children); 그 애 자식
+  if (turn === "O") {
+    return; //컴퓨터 턴일때 내가 클릭 하지 않도록
+  }
 
   let whichRow = rows.indexOf(e.target.parentNode);
   let whichColumn = columns[whichRow].indexOf(e.target);
@@ -80,76 +89,59 @@ let columnCheck = (e) => {
 
   //input값은 value, 태그 안 글자는 textContent
   if (columns[whichRow][whichColumn].textContent !== "") {
-    //빈칸 아니다
+    //만약 빈칸이 아니라면
   } else {
     //빈칸이다
     columns[whichRow][whichColumn].textContent = turn;
     console.log(turn);
     colorize(turn);
-    let win = resultCheck(); //return win해줘서 스코프체인밖이라도 받을수 있다
+    let win = resultCheck(whichRow, whichColumn); //return win해줘서 스코프체인밖이라도 받을수 있다
+
+    //모든 칸이 다 찼는지 검사
+    let emptyColumn = [];
+    columns.forEach((row) => {
+      row.forEach((column) => {
+        emptyColumn.push(column);
+      });
+    });
+    emptyColumn = emptyColumn.filter((column) => {
+      return !column.textContent;
+    });
+    console.log(emptyColumn);
 
     if (win) {
       //승리
-      result.textContent = turn + "'s WIN";
+
       initialize();
+    } else if (emptyColumn.length === 0) {
+      //칸을 더이상 선택할 수 없음
+
+      initialize(true);
     } else {
-      //승리 아님
-      let all = false;
-      //다찼는지 확인
-      if (
-        columns[0][0].textContent !== "" &&
-        columns[0][1].textContent !== "" &&
-        columns[0][2].textContent !== "" &&
-        columns[1][0].textContent !== "" &&
-        columns[1][1].textContent !== "" &&
-        columns[1][2].textContent !== "" &&
-        columns[2][0].textContent !== "" &&
-        columns[2][1].textContent !== "" &&
-        columns[2][2].textContent !== ""
-      ) {
-        all = true;
+      //다 안 찼으면, turn 바꿔줌
+      if (turn === "X") {
+        turn = "O";
       }
-      console.log(all);
-      if (all) {
-        //다 찼다면, 무승부, 초기화
-        //무승부
-        result.textContent = "DRAW!!";
-        initialize();
-      } else {
-        //다 안 찼으면, turn 바꿔줌
-        if (turn === "X") {
-          turn = "O";
+
+      setTimeout(() => {
+        console.log("computer turn");
+
+        let selectColumn =
+          emptyColumn[Math.floor(Math.random() * emptyColumn.length)];
+        selectColumn.textContent = turn;
+        selectColumn.style.backgroundColor = "blue";
+        //컴터 승리했는지 체크한다.
+        let whichRow = rows.indexOf(selectColumn.parentNode);
+        let whichColumn = columns[whichRow].indexOf(selectColumn);
+        let win = resultCheck(whichRow, whichColumn);
+        if (win) {
+          //컴퓨터승리
+          result.textContent = turn + "'s WIN";
+          initialize();
         }
-
-        setTimeout(() => {
-          console.log("computer turn");
-          //빈칸중 하나를 고른다
-          let emptyColumn = [];
-          columns.forEach((row) => {
-            row.forEach((column) => {
-              emptyColumn.push(column);
-            });
-          });
-          //filter함수는 return이 true인 경우만 filter처리한다.
-          emptyColumn = emptyColumn.filter((column) => {
-            return column.textContent;
-          });
-          console.log(emptyColumn);
-          let selectColumn =
-            emptyColumn[Math.floor(Math.random() * emptyColumn.length)];
-          selectColumn.textContent = turn;
-
-          //컴터 승리했는지 체크한다.
-          let win = resultCheck();
-          if (win) {
-            //승리
-            result.textContent = turn + "'s WIN";
-            initialize();
-          }
-          //나에게 턴을 넘긴다
-          turn = "x";
-        }, 1000);
-      }
+        //나에게 턴을 넘긴다
+        turn = "X";
+      }, 1000);
     }
   }
 };
