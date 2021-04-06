@@ -76,16 +76,16 @@ let columnCheck = (e) => {
   let whichColumn = columns[whichRow].indexOf(e.target);
   console.log("whichRow:", whichRow, "whichColumn:", whichColumn);
 
-  let colorize = (turn) => {
-    console.log(turn);
-    if (turn === "X") {
-      console.log("red", columns[whichRow][whichColumn]);
-      columns[whichRow][whichColumn].style.backgroundColor = "red";
-    } else if (turn === "O") {
-      console.log("blue");
-      columns[whichRow][whichColumn].style.backgroundColor = "blue";
-    }
-  };
+  // let colorize = (turn) => {
+  //   console.log(turn);
+  //   if (turn === "X") {
+  //     console.log("red", columns[whichRow][whichColumn]);
+  //     columns[whichRow][whichColumn].style.backgroundColor = "red";
+  //   } else if (turn === "O") {
+  //     console.log("blue");
+  //     columns[whichRow][whichColumn].style.backgroundColor = "blue";
+  //   }
+  // };
 
   //input값은 value, 태그 안 글자는 textContent
   if (columns[whichRow][whichColumn].textContent !== "") {
@@ -94,7 +94,7 @@ let columnCheck = (e) => {
     //빈칸이다
     columns[whichRow][whichColumn].textContent = turn;
     console.log(turn);
-    colorize(turn);
+    columns[whichRow][whichColumn].style.backgroundColor = "red";
     let win = resultCheck(whichRow, whichColumn); //return win해줘서 스코프체인밖이라도 받을수 있다
 
     //모든 칸이 다 찼는지 검사
@@ -112,7 +112,7 @@ let columnCheck = (e) => {
     if (win) {
       //승리
 
-      initialize();
+      initialize(); //undefined는 false로 들어간다
     } else if (emptyColumn.length === 0) {
       //칸을 더이상 선택할 수 없음
 
@@ -136,7 +136,7 @@ let columnCheck = (e) => {
         let win = resultCheck(whichRow, whichColumn);
         if (win) {
           //컴퓨터승리
-          result.textContent = turn + "'s WIN";
+
           initialize();
         }
         //나에게 턴을 넘긴다
